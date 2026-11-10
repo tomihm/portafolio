@@ -38,6 +38,18 @@ describe('Escena', () => {
         expect(control.setActivo).toHaveBeenLastCalledWith('contacto');
     });
 
+    it('al dibujar el primer cuadro se desvanece la pantalla de carga', () => {
+        document.body.insertAdjacentHTML('beforeend', '<div id="cargando"></div>');
+        render(<Escena activo={null} alElegir={() => {}} />);
+
+        crearEscena.mock.calls[0][1].alPrimerCuadro();
+
+        const carga = document.getElementById('cargando');
+        expect(carga.style.opacity).toBe('0');
+        expect(carga.style.pointerEvents).toBe('none');
+        carga.remove();
+    });
+
     it('el clic en la etiqueta elige la seccion', async () => {
         const alElegir = vi.fn();
         render(<Escena activo={null} alElegir={alElegir} />);

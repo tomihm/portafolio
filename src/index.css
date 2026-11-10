@@ -30,8 +30,3 @@
     a { color: var(--color-acento); }
     a:hover { color: var(--color-acento-claro); }
 }
-
-/* la pantalla de carga se desvanece apenas se monta la escena */
-@keyframes desvanecer {
-    to { opacity: 0; visibility: hidden; }
-}

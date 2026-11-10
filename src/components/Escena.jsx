@@ -3,6 +3,15 @@ import { crearEscena } from '../escena/crearEscena.js';
 import { secciones } from '../data/proyectos.js';
 import EtiquetaObjeto from './EtiquetaObjeto.jsx';
 
+// se desvanece la pantalla de carga de index.html cuando la escena ya dibujo algo
+const ocultarCarga = () => {
+    const el = document.getElementById('cargando');
+    if (!el) return;
+    el.style.pointerEvents = 'none';
+    el.style.opacity = '0';
+    el.addEventListener('transitionend', () => el.remove(), { once: true });
+};
+
 function Escena({ activo, alElegir }) {
     const hostRef = useRef(null);
     const capaRef = useRef(null);
@@ -17,6 +26,7 @@ function Escena({ activo, alElegir }) {
             etiquetas: etiquetasRef.current,
             alHover: setHover,
             alElegir,
+            alPrimerCuadro: ocultarCarga,
         });
         controlRef.current = control;
         return () => control.destruir();
@@ -45,9 +55,6 @@ function Escena({ activo, alElegir }) {
             </div>
             {/* viñeta para oscurecer los bordes */}
             <div className="pointer-events-none absolute inset-0 z-1 bg-[radial-gradient(ellipse_at_50%_45%,rgba(15,17,22,0)_55%,rgba(15,17,22,0.6)_100%)]" />
-            <div className="pointer-events-none absolute inset-0 z-4 flex animate-[desvanecer_.6s_ease_forwards] items-center justify-center bg-fondo text-xs text-tenue">
-                tomas@portafolio:~$ cargando escena…
-            </div>
         </div>
     );
 }

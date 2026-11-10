@@ -10,7 +10,7 @@ const anclas = { ferreteria: [0, 0.68, 0], mygos: [0, 0.82, -0.03], contacto: [0
  * La escena mueve las etiquetas (elementos del DOM) en cada cuadro; React solo las dibuja.
  * Devuelve un control para avisarle el hover y la seccion activa, y para destruirla.
  */
-export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir }) {
+export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir, alPrimerCuadro }) {
     let hover = null;
     let activo = null;
     let lamparaEncendida = true;
@@ -357,6 +357,7 @@ export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir 
             el.style.transform = `translate(${(v.x * 0.5 + 0.5) * W}px, ${(-v.y * 0.5 + 0.5) * H}px) translate(-50%, -100%)`;
         });
         renderer.render(scene, camera);
+        if (alPrimerCuadro) { alPrimerCuadro(); alPrimerCuadro = null; }
     };
     loop();
 

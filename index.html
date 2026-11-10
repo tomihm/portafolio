@@ -6,9 +6,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet" />
+    <style>
+      /* pantalla de carga: va en el html para verse antes de que llegue el js */
+      #cargando { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: #0f1116; color: #8fa3c7; font: 12px "IBM Plex Mono", monospace; transition: opacity .6s; }
+      #cargando i { display: inline-block; width: .6em; height: 1.15em; margin-left: 4px; vertical-align: -.25em; background: #f2a44b; animation: parpadeo 1.06s steps(1) infinite; }
+      @keyframes parpadeo { 50% { opacity: 0; } }
+      @media (prefers-reduced-motion: reduce) { #cargando i { animation: none; } }
+    </style>
     <title>Tomás Hernández · Portafolio</title>
   </head>
   <body>
+    <div id="cargando" role="status">tomas@portafolio:~$ cargando escena…<i aria-hidden="true"></i></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
