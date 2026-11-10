@@ -7,7 +7,10 @@ function Galeria({ imagenes }) {
 
     return (
         <div className="flex flex-col gap-2">
-            <img src={imagen.src} alt={imagen.alt} width="1280" height="800" className="aspect-[16/10] w-full rounded-md border border-borde-suave object-cover object-top" />
+            {/* en el panel la imagen queda chica: un clic la abre en grande */}
+            <a href={imagen.src} target="_blank" rel="noreferrer" className="block" title="Abrir en grande">
+                <img src={imagen.src} alt={imagen.alt} width="1280" height="800" className="aspect-[16/10] w-full rounded-md border border-borde-suave object-cover object-top transition-colors hover:border-acento" />
+            </a>
             {imagenes.length > 1 && (
                 <div className="flex gap-2">
                     {imagenes.map((img, i) => (

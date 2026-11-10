@@ -12,6 +12,7 @@ describe('Galeria', () => {
     it('parte con la primera captura y la miniatura cambia la grande', async () => {
         render(<Galeria imagenes={imagenes} />);
         expect(screen.getByRole('img', { name: 'Inicio' })).toHaveAttribute('src', 'a.webp');
+        expect(screen.getByRole('link', { name: 'Inicio' })).toHaveAttribute('href', 'a.webp');
 
         await userEvent.click(screen.getByRole('button', { name: 'Ver captura: Catálogo' }));
 

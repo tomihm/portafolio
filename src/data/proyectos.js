@@ -2,6 +2,7 @@
 import ferreteriaInicio from '../assets/ferreteria/inicio.webp';
 import ferreteriaCatalogo from '../assets/ferreteria/catalogo.webp';
 import ferreteriaProducto from '../assets/ferreteria/producto.webp';
+import bibliotecasArquitectura from '../assets/bibliotecas/arquitectura.svg';
 
 export const proyectos = [
     {
@@ -46,6 +47,9 @@ export const proyectos = [
         ruta: '~/bibliotecas · backend',
         titulo: 'Gestión de bibliotecas',
         descripcion: 'Diez microservicios para usuarios, libros, préstamos, reservas, multas e inventario.',
+        imagenes: [
+            { src: bibliotecasArquitectura, alt: 'Arquitectura: API Gateway, Eureka y 10 microservicios con su base MySQL' },
+        ],
         rol: 'Arquitectura e infraestructura: API Gateway, Eureka, Docker y despliegue, además de los servicios de reservas y auditoría.',
         destacados: [
             'Cerca de la mitad del código Java del proyecto.',
