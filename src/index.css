@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* colores y fuentes del diseño original */
+@theme {
+    --color-fondo: #0f1116;
+    --color-superficie: #12151c;
+    --color-texto: #ece8e1;
+    --color-texto-suave: #c9cdd4;
+    --color-chip: #b9bec8;
+    --color-tenue: #8fa3c7;
+    --color-apagado: #6b7383;
+    --color-acento: #f2a44b;
+    --color-acento-claro: #ffd29a;
+    --color-borde: #2a2f3a;
+    --color-borde-suave: #232834;
+    --color-borde-chip: #2f3644;
+    --color-borde-captura: #3a4252;
+    --font-mono: "IBM Plex Mono", monospace;
+    --font-serif: "Newsreader", serif;
+}
+
+@layer base {
+    html, body {
+        margin: 0;
+        background: var(--color-fondo);
+        color: var(--color-texto);
+        font-family: var(--font-mono);
+        -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--color-acento); }
+    a:hover { color: var(--color-acento-claro); }
+}
+
+/* la pantalla de carga se desvanece apenas se monta la escena */
+@keyframes desvanecer {
+    to { opacity: 0; visibility: hidden; }
+}
