@@ -318,7 +318,7 @@ export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir,
     const v = new T.Vector3(), cam = { x: 0, y: 0 }; let panX = 0;
     let lampLvl = 1;
     let raf;
-    const t0 = performance.now();
+    let t0 = performance.now();
     const loop = () => {
         if (muerto) return;
         raf = requestAnimationFrame(loop);
@@ -364,6 +364,8 @@ export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir,
     return {
         setHover(k) { if (k !== hover) { hover = k; drawTerm(); } },
         setActivo(k) { activo = k; },
+        // reinicia el reloj: la intro de la camara y las etiquetas parten desde cero
+        empezar() { t0 = performance.now(); },
         destruir() {
             muerto = true;
             cancelAnimationFrame(raf);

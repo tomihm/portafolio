@@ -12,6 +12,9 @@ const ocultarCarga = () => {
     el.addEventListener('transitionend', () => el.remove(), { once: true });
 };
 
+// la pantalla de carga se muestra al menos esto, contado desde que se abre la pagina
+const DURACION_CARGA = 5000;
+
 function Escena({ activo, alElegir }) {
     const hostRef = useRef(null);
     const capaRef = useRef(null);
@@ -21,15 +24,25 @@ function Escena({ activo, alElegir }) {
 
     // three.js vive fuera de React: se crea al montar y se destruye al desmontar
     useEffect(() => {
+        let espera;
         const control = crearEscena(hostRef.current, {
             capaEtiquetas: capaRef.current,
             etiquetas: etiquetasRef.current,
             alHover: setHover,
             alElegir,
-            alPrimerCuadro: ocultarCarga,
+            // la intro de la camara parte recien cuando se va la pantalla de carga
+            alPrimerCuadro: () => {
+                espera = setTimeout(() => {
+                    ocultarCarga();
+                    controlRef.current?.empezar();
+                }, Math.max(0, DURACION_CARGA - performance.now()));
+            },
         });
         controlRef.current = control;
-        return () => control.destruir();
+        return () => {
+            clearTimeout(espera);
+            control.destruir();
+        };
     }, [alElegir]);
 
     useEffect(() => { controlRef.current?.setHover(hover); }, [hover]);

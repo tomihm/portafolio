@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { crearEscena } from '../escena/crearEscena.js';
 import Escena from './Escena.jsx';
 
-const control = { setHover: vi.fn(), setActivo: vi.fn(), destruir: vi.fn() };
+const control = { setHover: vi.fn(), setActivo: vi.fn(), empezar: vi.fn(), destruir: vi.fn() };
 vi.mock('../escena/crearEscena.js', () => ({ crearEscena: vi.fn(() => control) }));
 
 describe('Escena', () => {
@@ -38,16 +38,26 @@ describe('Escena', () => {
         expect(control.setActivo).toHaveBeenLastCalledWith('contacto');
     });
 
-    it('al dibujar el primer cuadro se desvanece la pantalla de carga', () => {
+    it('la pantalla de carga dura al menos 5 s y despues parte la intro', () => {
+        vi.useFakeTimers();
+        vi.spyOn(performance, 'now').mockReturnValue(1000);
         document.body.insertAdjacentHTML('beforeend', '<div id="cargando"></div>');
         render(<Escena activo={null} alElegir={() => {}} />);
+        const carga = document.getElementById('cargando');
 
         crearEscena.mock.calls[0][1].alPrimerCuadro();
+        vi.advanceTimersByTime(3999);
+        expect(carga.style.opacity).toBe('');
+        expect(control.empezar).not.toHaveBeenCalled();
 
-        const carga = document.getElementById('cargando');
+        vi.advanceTimersByTime(1);
         expect(carga.style.opacity).toBe('0');
         expect(carga.style.pointerEvents).toBe('none');
+        expect(control.empezar).toHaveBeenCalled();
+
         carga.remove();
+        vi.restoreAllMocks();
+        vi.useRealTimers();
     });
 
     it('el clic en la etiqueta elige la seccion', async () => {
