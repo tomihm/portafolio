@@ -1,16 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { crearEscena } from '../escena/crearEscena.js';
+import { ocultarCarga } from '../utils/pantallaCarga.js';
+import { prefiereMenosMovimiento } from '../utils/vista.js';
 import { secciones } from '../data/proyectos.js';
 import EtiquetaObjeto from './EtiquetaObjeto.jsx';
-
-// se desvanece la pantalla de carga de index.html cuando la escena ya dibujo algo
-const ocultarCarga = () => {
-    const el = document.getElementById('cargando');
-    if (!el) return;
-    el.style.pointerEvents = 'none';
-    el.style.opacity = '0';
-    el.addEventListener('transitionend', () => el.remove(), { once: true });
-};
 
 // la pantalla de carga se muestra al menos esto, contado desde que se abre la pagina
 const DURACION_CARGA = 5000;
@@ -24,23 +17,21 @@ function Escena({ activo, alElegir }) {
 
     // three.js vive fuera de React: se crea al montar y se destruye al desmontar
     useEffect(() => {
-        let espera;
+        let cancelarCarga;
         const control = crearEscena(hostRef.current, {
             capaEtiquetas: capaRef.current,
             etiquetas: etiquetasRef.current,
             alHover: setHover,
             alElegir,
+            sinMovimiento: prefiereMenosMovimiento(),
             // la intro de la camara parte recien cuando se va la pantalla de carga
             alPrimerCuadro: () => {
-                espera = setTimeout(() => {
-                    ocultarCarga();
-                    controlRef.current?.empezar();
-                }, Math.max(0, DURACION_CARGA - performance.now()));
+                cancelarCarga = ocultarCarga(DURACION_CARGA, () => controlRef.current?.empezar());
             },
         });
         controlRef.current = control;
         return () => {
-            clearTimeout(espera);
+            cancelarCarga?.();
             control.destruir();
         };
     }, [alElegir]);

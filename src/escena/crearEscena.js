@@ -10,7 +10,7 @@ const anclas = { ferreteria: [0, 0.68, 0], mygos: [0, 0.82, -0.03], contacto: [0
  * La escena mueve las etiquetas (elementos del DOM) en cada cuadro; React solo las dibuja.
  * Devuelve un control para avisarle el hover y la seccion activa, y para destruirla.
  */
-export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir, alPrimerCuadro }) {
+export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir, alPrimerCuadro, sinMovimiento = false }) {
     let hover = null;
     let activo = null;
     let lamparaEncendida = true;
@@ -323,9 +323,11 @@ export function crearEscena(host, { capaEtiquetas, etiquetas, alHover, alElegir,
         if (muerto) return;
         raf = requestAnimationFrame(loop);
         const t = (performance.now() - t0) / 1000;
-        const intro = 1 - Math.pow(1 - Math.min(1, t / 1.8), 3);
-        cam.x += (mouse.x * 0.7 + Math.sin(t * 0.25) * 0.15 - cam.x) * 0.05;
-        cam.y += (-mouse.y * 0.25 - cam.y) * 0.05;
+        // con "reducir movimiento" la camara queda quieta y sin intro
+        const intro = sinMovimiento ? 1 : 1 - Math.pow(1 - Math.min(1, t / 1.8), 3);
+        const balanceo = sinMovimiento ? 0 : 1;
+        cam.x += ((mouse.x * 0.7 + Math.sin(t * 0.25) * 0.15) * balanceo - cam.x) * 0.05;
+        cam.y += (-mouse.y * 0.25 * balanceo - cam.y) * 0.05;
         camera.position.set(cam.x + (1 - intro) * -1.2, 1.75 + cam.y + (1 - intro) * 0.8, baseZ + (1 - intro) * 2.5);
         // con el panel abierto la camara se corre para dejar la escena a la izquierda
         const open = activo && W > 760 ? 1.25 : 0; panX += (open - panX) * 0.06;

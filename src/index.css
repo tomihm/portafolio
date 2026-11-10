@@ -8,7 +8,7 @@
     --color-texto-suave: #c9cdd4;
     --color-chip: #b9bec8;
     --color-tenue: #8fa3c7;
-    --color-apagado: #6b7383;
+    --color-apagado: #7d8596; /* 4.9:1 sobre el panel, pasa AA */
     --color-acento: #f2a44b;
     --color-acento-claro: #ffd29a;
     --color-borde: #2a2f3a;
@@ -28,5 +28,6 @@
         -webkit-font-smoothing: antialiased;
     }
     a { color: var(--color-acento); }
+    :focus-visible { outline: 2px solid var(--color-acento); outline-offset: 3px; }
     a:hover { color: var(--color-acento-claro); }
 }
